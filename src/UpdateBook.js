@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-
 const UpdateBook = () => {
   let history = useHistory(); //The useHistory hook gives you access to the history instance that you may use to navigate.
   const { id } = useParams(); //The useParams() hook helps us to access the URL parameters from a current route.
 
   const [book, setBook] = useState({
     name: "",
-    author: "",
+    // author: "",
     publisher: "",
     publishedDate: "",
     generes: "",
     price: "",
     image: "",
   });
-
+  const [authors,setAuthors]=useState([]);
   const { name, author, publisher, publishedDate, generes, price, image } =
     book;
 
@@ -25,6 +24,7 @@ const UpdateBook = () => {
 
   useEffect(() => {
     loadBook();
+    loadAuthors();
   }, []);
 
   const updateBook = async (e) => {
@@ -46,7 +46,7 @@ const UpdateBook = () => {
           name: result.name,
           author: result.author._id,
           publisher: result.publisher,
-          publishedDate: result.publishedDate,
+          publishedDate: result.publishedDate.slice(0,10),
           generes: result.generes,
           price: result.price,
           image: result.image,
@@ -54,7 +54,16 @@ const UpdateBook = () => {
       })
       .catch((error) => console.log("error", error));
   };
-
+  const loadAuthors = async () =>  
+  {
+    var response = fetch('http://localhost:8000/v1/author')
+       .then(function(response){
+          return response.json();
+        })
+       .then(function(myJson) {
+          setAuthors(myJson);
+        });
+  }
   return (
     <div className="container">
       <div className="row mt-4">
@@ -75,15 +84,19 @@ const UpdateBook = () => {
             />
           </div>
           <div class="form-group">
-            <input
-              type="text"
+            {/* <input type="text" class="form-control  mb-4" name="author"   value={author} onChange={e => onInputChange(e)} placeholder="Nhập tác giả" required=""/> */}
+            <select
               class="form-control  mb-4"
               name="author"
               value={author}
               onChange={(e) => onInputChange(e)}
-              placeholder="Nhập tác giả"
-              required=""
-            />
+            >
+              {authors.map((au) => (
+                <option value={au._id} selected={author}>
+                  {au.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div class="form-group">
             <input

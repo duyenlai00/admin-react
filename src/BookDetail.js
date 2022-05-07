@@ -7,10 +7,12 @@ function BookDetail()
 {
   const [search,setSearch] =useState('');
   const [record,setRecord] = useState([]);
+  const [authors,setAuthors]=useState([]);
+  // const [author,setAuthor]=useState("");
 
   const [book, setBook] = useState({
     name: "",
-    author:"",
+    // author:"",
     publisher: "",
     publishedDate:"",
     generes:"",
@@ -35,8 +37,20 @@ function BookDetail()
             setRecord(myJson);
           });
     }
+    const loadAuthors = async () =>  
+    {
+      var response = fetch('http://localhost:8000/v1/author')
+         .then(function(response){
+            return response.json();
+          })
+         .then(function(myJson) {
+            setAuthors(myJson);
+          });
+    }
+
     useEffect(() => {
       loadBookDetail();
+      loadAuthors();
     }, []);
 
     // Insert Author Records 
@@ -88,7 +102,12 @@ function BookDetail()
                    <input type="text" class="form-control  mb-4" name="name"   value={name} onChange={e => onInputChange(e)} placeholder="Nhập tên sách" required=""/>
                 </div>
                 <div class="form-group">
-                   <input type="text" class="form-control  mb-4" name="author"   value={author} onChange={e => onInputChange(e)} placeholder="Nhập tác giả" required=""/>
+                   {/* <input type="text" class="form-control  mb-4" name="author"   value={author} onChange={e => onInputChange(e)} placeholder="Nhập tác giả" required=""/> */}
+                   <select class="form-control  mb-4" name="author" onChange={e => onInputChange(e)}>
+                        {authors.map((au) => (
+                            <option value={au._id}>{au.name}</option>
+                         ))}
+                  </select>
                 </div>
                 <div class="form-group">
                    <input type="text" class="form-control  mb-4" name="publisher"   value={publisher} onChange={e => onInputChange(e)} placeholder="Nhập NXB" required=""/>
