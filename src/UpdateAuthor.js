@@ -13,7 +13,6 @@ const UpdateAuthor = () => {
       year:""
   })
 
-
   const { name, year} = author;
 
   const onInputChange = e => {
@@ -22,6 +21,7 @@ const UpdateAuthor = () => {
 
   useEffect(() => {
     loadAuthor();
+    // console.log(author);
   }, []);
 
   
@@ -39,11 +39,8 @@ const UpdateAuthor = () => {
     .then((result) => {
       console.log(result);
       setAuthor({
-        id: id,
-        update: true,
         name: result.name,
         year: result.year
-
       });
     })
     .catch((error) => console.log("error", error));

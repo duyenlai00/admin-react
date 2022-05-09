@@ -13,9 +13,6 @@ class Nav extends Component {
                             <li className="nav-item mx-0 mx-lg-1"><a
                                 className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
                                 href="/author">Author</a></li>
-                            <li className="nav-item mx-0 mx-lg-1"><a
-                                className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a>
-                            </li>
                         </ul>
                     </div>
                 </div>

@@ -8,8 +8,9 @@ function BookDetail()
   const [search,setSearch] =useState('');
   const [record,setRecord] = useState([]);
   const [authors,setAuthors]=useState([]);
-  // const [author,setAuthor]=useState("");
-
+  const [file,setFile]=useState(null);
+  const PF = "http://localhost:8000/images/";
+  // const PF = "http://localhost:8000/images1/";
   const [book, setBook] = useState({
     name: "",
     // author:"",
@@ -19,10 +20,10 @@ function BookDetail()
     price:"",
     image:""
   });
- 
+
     //  Object Destructuring 
     const {name,author,publisher,publishedDate,generes,price,image} = book;
-    const onInputChange = e => {
+    const onInputChange = async(e) => {
       setBook({ ...book, [e.target.name]: e.target.value });
     };
     
@@ -49,20 +50,38 @@ function BookDetail()
     }
 
     useEffect(() => {
-      loadBookDetail();
       loadAuthors();
+      loadBookDetail();
     }, []);
 
     // Insert Author Records 
-    const submitBookRecord = async (e) => {
-        e.preventDefault();
-        e.target.reset();
+    const submitBookRecord = async(e) => {
+        e.preventDefault();//huy bo event
+        e.target.reset();//reset lai cac truong
+        postImage();
         await axios.post("http://localhost:8000/v1/book",book);
         alert('Data Inserted');
-        
         loadBookDetail();
     };
-    
+    //post file anh
+    const postImage = async() =>
+    {   
+      if (file) {
+        alert("Post Image ")
+        const data =new FormData();
+        const filename = Date.now() + file.name;
+        data.append("name", filename);
+        data.append("file", file);
+        book.image = filename+"";
+        await axios.post("http://localhost:8000/v1/book/upload",data,{ mode: 'cors' }) 
+        .then((response)=>{
+          alert('Upload thanh cong');
+        })     
+        .catch((err)=>{
+          alert('Error in the Code' +err);
+        });
+      }
+    }
     // Search Records here 
     const searchRecords = () =>
     {   
@@ -122,7 +141,9 @@ function BookDetail()
                    <input type="number" class="form-control  mb-4" name="price"   value={price} onChange={e => onInputChange(e)} placeholder="Nhập giá" required=""/>
                 </div>
                 <div class="form-group">
-                   <input type="text" class="form-control  mb-4" name="image" value={image} onChange={e => onInputChange(e)}  placeholder="Nhập link ảnh" required=""/>
+                   {/* <input type="text" class="form-control  mb-4" name="image" value={image} onChange={e => onInputChange(e)}  placeholder="Nhập link ảnh" required=""/> */}
+                   <label for="image">Chọn ảnh:</label>
+                   <input type="file" id="image" name="image" onChange={(e) => setFile(e.target.files[0]) } />
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mt-4">Lưu</button>
              </form>
@@ -167,7 +188,7 @@ function BookDetail()
                 <td>{bo.price}</td>
                 <td>
                     <div>
-                        <img style={{width:120,height: 200}} src={bo.image} alt="anhSach"/>
+                        {bo.image &&<img style={{width:120,height: 200}} src={PF+bo.image} alt="anhSach"/>}
                     </div>    
                 </td>
                 <td>
