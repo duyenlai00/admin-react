@@ -10,10 +10,8 @@ function BookDetail()
   const [authors,setAuthors]=useState([]);
   const [file,setFile]=useState(null);
   const PF = "http://localhost:8000/images/";
-  // const PF = "http://localhost:8000/images1/";
   const [book, setBook] = useState({
     name: "",
-    // author:"",
     publisher: "",
     publishedDate:"",
     generes:"",
@@ -48,7 +46,23 @@ function BookDetail()
             setAuthors(myJson);
           });
     }
-
+   //refresh data
+   const refreshData=()=>
+   {
+     setBook({
+      name: "",
+      publisher: "",
+      publishedDate:"",
+      generes:"",
+      price:""
+      });
+      setSearch("");
+   }
+   //View All Author
+   const viewAllBook=()=>{
+     refreshData();
+     loadBookDetail();
+   }
     useEffect(() => {
       loadAuthors();
       loadBookDetail();
@@ -61,6 +75,7 @@ function BookDetail()
         postImage();
         await axios.post("http://localhost:8000/v1/book",book);
         alert('Data Inserted');
+        refreshData();
         loadBookDetail();
     };
     //post file anh
@@ -121,7 +136,6 @@ function BookDetail()
                    <input type="text" class="form-control  mb-4" name="name"   value={name} onChange={e => onInputChange(e)} placeholder="Nhập tên sách" required=""/>
                 </div>
                 <div class="form-group">
-                   {/* <input type="text" class="form-control  mb-4" name="author"   value={author} onChange={e => onInputChange(e)} placeholder="Nhập tác giả" required=""/> */}
                    <select class="form-control  mb-4" name="author" onChange={e => onInputChange(e)}>
                         {authors.map((au) => (
                             <option value={au._id}>{au.name}</option>
@@ -141,7 +155,6 @@ function BookDetail()
                    <input type="number" class="form-control  mb-4" name="price"   value={price} onChange={e => onInputChange(e)} placeholder="Nhập giá" required=""/>
                 </div>
                 <div class="form-group">
-                   {/* <input type="text" class="form-control  mb-4" name="image" value={image} onChange={e => onInputChange(e)}  placeholder="Nhập link ảnh" required=""/> */}
                    <label for="image">Chọn ảnh:</label>
                    <input type="file" id="image" name="image" onChange={(e) => setFile(e.target.files[0]) } />
                 </div>
@@ -150,26 +163,23 @@ function BookDetail()
         </div>
       </div>
       <div class="col-sm-8">
-        <h4 class="text-center  ml-4 mt-4  mb-5">Danh sách Sách</h4>
+        <h4 class="text-center  ml-4 mt-4  mb-5">QUẢN LÝ SÁCH</h4>
         < div class="input-group mb-4 mt-3">
           <div class="form-outline">
            <input type="text" id="form1" onChange={(e)=>setSearch(e.target.value)} class="form-control" placeholder="Tìm kiếm" style={{backgroundColor:"#ececec"}}/>
         </div>
-        <button type="button" onClick={searchRecords}  class="btn btn-success">
+        <button type="button" onClick={searchRecords}  class="btn btn-primary">
             <i class="fa fa-search" aria-hidden="true"></i>
         </button>
         </div>  
         <div>
-        <button type="button" onClick={loadBookDetail}  class="btn btn-success">View All Book</button>
+        <button type="button" onClick={viewAllBook}  class="btn btn-primary">View All Book</button>
         </div>
         <table class="table table-hover  table-striped table-bordered ml-4 ">
             <thead>
             <tr>
-                {/* <th>ID</th> */}
                 <th>Tên</th>
                 <th>Tác giả</th>
-                {/* <th>NXB</th>
-                <th>Ngày xuất bản</th> */}
                 <th>Thể loại</th>
                 <th>Giá</th>
                 <th>Ảnh</th>
@@ -179,11 +189,8 @@ function BookDetail()
     
             {record.map((bo)=>
                 <tr>
-                {/* <td>{au._id}</td> */}
                 <td>{bo.name}</td>
                 <td>{bo.author.name}</td>
-                {/* <td>{bo.publisher}</td>
-                <td>{bo.publishedDate}</td>*/}
                 <td>{bo.generes}</td> 
                 <td>{bo.price}</td>
                 <td>

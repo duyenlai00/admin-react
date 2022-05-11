@@ -21,7 +21,6 @@ const UpdateAuthor = () => {
 
   useEffect(() => {
     loadAuthor();
-    // console.log(author);
   }, []);
 
   

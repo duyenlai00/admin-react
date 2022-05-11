@@ -22,7 +22,6 @@ function AuthorDetail()
     // On Page load display all records 
     const loadAuthorDetail = async () =>  
     {
-      
       var response = fetch('http://localhost:8000/v1/author')
          .then(function(response){
             return response.json();
@@ -41,10 +40,23 @@ function AuthorDetail()
         e.target.reset();
         await axios.post("http://localhost:8000/v1/author",author);
         alert('Data Inserted');
-        
+        refreshData();
         loadAuthorDetail();
     };
-    
+    //refresh data
+    const refreshData=()=>
+    {
+      setAuthor({
+        name: "",
+        year: "",});
+        setSearch("");
+    }
+    //View All Author
+    const viewAllAuthor=()=>{
+      refreshData();
+      loadAuthorDetail();
+    }
+
     // Search Records here 
     const searchRecords = () =>
     {   
@@ -59,7 +71,7 @@ function AuthorDetail()
         });
     }
     
-    // Delete Employee Record
+    // Delete Author Record
     const deleteRecord = (authorId) =>
     {
       axios.delete(`http://localhost:8000/v1/author/${authorId}`)
@@ -87,22 +99,22 @@ function AuthorDetail()
                 <div class="form-group">
                    <input type="number" class="form-control  mb-4" name="year" value={year} onChange={e => onInputChange(e)}  placeholder="Nhập năm sinh" required=""/>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block mt-4">Lưu</button>
+                <button type="submit" class="btn btn-primary btn-block mt-4 ">Lưu</button>
              </form>
         </div>
       </div>
       <div class="col-sm-8">
-        <h4 class="text-center  ml-4 mt-4  mb-5">Danh sách Tác giả</h4>
+        <h4 class="text-center  ml-4 mt-4  mb-5">QUẢN LÝ TÁC GIẢ</h4>
         < div class="input-group mb-4 mt-3">
           <div class="form-outline">
-           <input type="text" id="form1" onChange={(e)=>setSearch(e.target.value)} class="form-control" placeholder="Tìm kiếm" style={{backgroundColor:"#ececec"}}/>
+           <input type="text" id="form1" value={search} onChange={(e)=>setSearch(e.target.value)} class="form-control" placeholder="Tìm kiếm" style={{backgroundColor:"#ececec"}}/>
         </div>
-        <button type="button" onClick={searchRecords}  class="btn btn-success">
+        <button type="button" onClick={searchRecords}  class="btn btn-primary ">
             <i class="fa fa-search" aria-hidden="true"></i>
         </button>
         </div>  
         <div>
-        <button type="button" onClick={loadAuthorDetail}  class="btn btn-success">View All Author</button>
+        <button type="button" onClick={viewAllAuthor}  class="btn btn-primary">View All Author</button>
         </div>
         <table class="table table-hover  table-striped table-bordered ml-4 ">
             <thead>

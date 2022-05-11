@@ -1,61 +1,28 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 
-class SectionContact extends Component {
+class Footer extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+                 
+        }
+    }
+
     render() {
         return (
-            <section className="page-section" id="contact">
-                <div className="container">
-                    {/* Contact Section Heading*/}
-                    <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Contact Me</h2>
-                    {/* Icon Divider*/}
-                    <div className="divider-custom">
-                        <div className="divider-custom-line" />
-                        <div className="divider-custom-icon"><i className="fas fa-star" /></div>
-                        <div className="divider-custom-line" />
+            <div>
+                <footer className = "footer bg-dark" >
+                    <div style={{height:150}}>
+                        <div><span className="text-muted">All Rights Reserved 2022 @PtitGroup06</span></div>
+                        <div><span className="text-muted">BOOKSTORE</span></div>
+                        <div> <span className="text-muted">Địa chỉ: Km10, Đường Nguyễn Trãi, Q.Hà Đông, Hà Nội</span></div>
+                        <div><span className="text-muted">Liên hệ:0123456789</span></div>
                     </div>
-                    {/* Contact Section Form*/}
-                    <div className="row">
-                        <div className="col-lg-8 mx-auto">
-                            {/* To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.*/}
-                            <form id="contactForm" name="sentMessage" noValidate="novalidate">
-                                <div className="control-group">
-                                    <div className="form-group floating-label-form-group controls mb-0 pb-2">
-                                        <label>Name</label>
-                                        <input className="form-control" id="name" type="text" placeholder="Tên" required="required" data-validation-required-message="Please enter your name." />
-                                        <p className="help-block text-danger" />
-                                    </div>
-                                </div>
-                                <div className="control-group">
-                                    <div className="form-group floating-label-form-group controls mb-0 pb-2">
-                                        <label>Email Address</label>
-                                        <input className="form-control" id="email" type="email" placeholder="Địa chỉ email" required="required" data-validation-required-message="Please enter your email address." />
-                                        <p className="help-block text-danger" />
-                                    </div>
-                                </div>
-                                <div className="control-group">
-                                    <div className="form-group floating-label-form-group controls mb-0 pb-2">
-                                        <label>Phone Number</label>
-                                        <input className="form-control" id="phone" type="tel" placeholder="Số điện thoại liên hệ" required="required" data-validation-required-message="Please enter your phone number." />
-                                        <p className="help-block text-danger" />
-                                    </div>
-                                </div>
-                                <div className="control-group">
-                                    <div className="form-group floating-label-form-group controls mb-0 pb-2">
-                                        <label>Message</label>
-                                        <textarea className="form-control" id="message" rows={5} placeholder="Tin nhắn" required="required" data-validation-required-message="Please enter a message." defaultValue={""} />
-                                        <p className="help-block text-danger" />
-                                    </div>
-                                </div>
-                                <br />
-                                <div id="success" />
-                                <div className="form-group"><button className="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Send</button></div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        );
+                </footer>
+            </div>
+        )
     }
 }
 
-export default SectionContact;
+export default Footer

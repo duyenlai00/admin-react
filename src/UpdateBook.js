@@ -5,12 +5,9 @@ const UpdateBook = () => {
   let history = useHistory(); //The useHistory hook gives you access to the history instance that you may use to navigate.
   const { id } = useParams(); //The useParams() hook helps us to access the URL parameters from a current route.
 
-  // const [file,setFile]=useState();
   const PF = "http://localhost:8000/images/";
-  // const PF = "http://localhost:8000/images1/";
   const [book, setBook] = useState({
     name: "",
-    // author: "",
     publisher: "",
     publishedDate: "",
     generes: "",
@@ -30,8 +27,6 @@ const UpdateBook = () => {
  
   const loadContent =()=>{
    loadAuthors();
-  //  loadBook();
-  //  setFileStart();
   }
   const loadAuthors = async() =>  
   {
@@ -61,48 +56,12 @@ const UpdateBook = () => {
           price: result.price,
           image: result.image
         });
-        // return setFileStart(result.image);
       })
       .catch((error) => console.log("error", error)); 
   };
-  // const setFileStart = async(image)=>  
-  // { 
-  //   console.log(image);
-  //   console.log("http://localhost:8000/v1/book/getFile/"+image);
-  //   await axios.get("http://localhost:8000/v1/book/getFile/"+image)
-  //   .then((response)=>{
-  //     setFile(response.data);
-  //     console.log(response);
-  //     // file.name=image;
-  //     alert('Load thanh cong');
-  //   })     
-  //   .catch((err)=>{
-  //     alert('Error in the Code' +err);
-  //   });
-  //   ;
-  // }
-  // const postImage = async() =>
-  // {   
-  //   if (file) {
-  //     alert("Post Image ")
-  //     const data =new FormData();
-  //     const filename = Date.now() + file.name;
-  //     data.append("name", filename);
-  //     data.append("file", file);
-  //     book.image = filename+"";
-  //     await  axios.post("http://localhost:8000/v1/book/upload",data,{ mode: 'cors' }) 
-  //     .then((response)=>{
-  //       alert('Upload thanh cong');
-  //     })     
-  //     .catch((err)=>{
-  //       alert('Error in the Code' +err);
-  //     });
-  //   }
-  // }
 
   const updateBook = async(e) => {
     e.preventDefault();
-    // postImage();
     await axios.put(`http://localhost:8000/v1/book/${id}`, book);
     history.push("/book");
   };
@@ -187,12 +146,10 @@ const UpdateBook = () => {
            <div class="form-group">
               <label for="image1" >Ảnh sách:</label>
               <div class="form-control  mb-4">
-                   {/* <input type="file" id="image1" name="image" value={book.image}onChange={(e) => setFile(e.target.files[0]) } /> */}
-
                   {book.image && (<img className="writeImg" style={{width:120,height: 200}} src={PF+book.image} alt="anh" />)}  
               </div>
             </div>
-          <button onClick={updateBook} class="btn btn-primary btn-block mt-4">
+          <button onClick={updateBook} class="btn btn-primary btn-block ">
             Cập nhật
           </button>
         </div>
